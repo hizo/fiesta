@@ -5,6 +5,7 @@ import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuBadge,
@@ -16,12 +17,9 @@ import { NavLink } from "react-router";
 import { GalleryVerticalEnd } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { useQueryClient } from "@tanstack/react-query";
-
-const items = [
-  { path: "/", label: "Home" },
-  { path: "/add", label: "Add entry" },
-  { path: "/reviews", label: "Reviews", badge: 1 },
-];
+import { useReviews } from "@/hooks/useReviews";
+import { Skeleton } from "./ui/skeleton";
+import { Badge } from "./ui/badge";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const client = useQueryClient();
@@ -31,6 +29,25 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       queryKey: ["auth"],
     });
   };
+
+  const { data, isPending } = useReviews();
+
+  const items = [
+    { path: "/", label: "Home" },
+    { path: "/add", label: "Add entry" },
+    {
+      path: "/reviews",
+      label: "Reviews",
+      badge: isPending ? (
+        <Skeleton
+          className="animate-pulse size-6 rounded-md"
+          data-sidebar="menu-skeleton-icon"
+        />
+      ) : (
+        <Badge>{data?.count}</Badge>
+      ),
+    },
+  ];
 
   return (
     <Sidebar {...props}>
@@ -49,7 +66,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          {/* <SidebarGroupLabel>{item.title}</SidebarGroupLabel> */}
+          <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
@@ -72,6 +89,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup>
+          <SidebarGroupLabel>Account</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>

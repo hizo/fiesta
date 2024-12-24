@@ -7,11 +7,7 @@ export const ProtectedPage = () => {
   const { data: { data: { session } = {} } = {}, isPending } = useQuery({
     queryKey: ["auth"],
     queryFn: () => supabase.auth.getSession(),
-    refetchOnWindowFocus: false,
-    retry: false,
   });
-
-  console.log(session);
 
   return isPending ? (
     <div className="flex h-full items-center justify-center">

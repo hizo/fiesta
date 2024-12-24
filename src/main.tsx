@@ -8,7 +8,14 @@ import { ProtectedPage } from "./components/ProtectedPage.tsx";
 import { Layout } from "./components/Layout.tsx";
 import { AddEntry } from "./app/AddEntry.tsx";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>

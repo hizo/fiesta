@@ -19,7 +19,6 @@ export const AddEntry = () => {
     Awaited<ReturnType<typeof supabase.auth.getSession>>
   >({
     queryKey: ["auth"],
-    retry: false,
   });
 
   const { ref: entryInputRef, ...entryInput } = register("entry", {
@@ -27,12 +26,11 @@ export const AddEntry = () => {
   });
 
   const mutation = useMutation<Entry, unknown, FormData>({
-    mutationFn: (data) => {
-      return supabase.from("entries").insert({
+    mutationFn: (data) =>
+      supabase.from("entries").insert({
         ...data,
         user_id: session?.user.id || "",
-      }) as unknown as Promise<Entry>;
-    },
+      }) as unknown as Promise<Entry>,
     onSuccess: () => {
       reset();
       refEntryInput.current?.focus();

@@ -1,45 +1,58 @@
-import { PropsWithChildren } from "react";
+import { ElementType, PropsWithChildren } from "react";
 
-export function TypographyH1({ children }: PropsWithChildren) {
+type TypographyProps = PropsWithChildren<{
+  as?: ElementType;
+}>;
+
+export function TypographyH1({ children, as }: TypographyProps) {
+  const Tag = as ?? "h1";
   return (
-    <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+    <Tag className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
       {children}
-    </h1>
+    </Tag>
   );
 }
-export function TypographyH2({ children }: PropsWithChildren) {
+export function TypographyH2({ children, as }: TypographyProps) {
+  const Tag = as ?? "h2";
   return (
-    <h2 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+    <Tag className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
       {children}
-    </h2>
+    </Tag>
   );
 }
-export function TypographyH3({ children }: PropsWithChildren) {
+export function TypographyH3({ children, as }: TypographyProps) {
+  const Tag = as ?? "h3";
   return (
-    <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+    <Tag className="scroll-m-20 text-2xl font-semibold tracking-tight">
       {children}
-    </h3>
+    </Tag>
   );
 }
-export function TypographyH4({ children }: PropsWithChildren) {
+export function TypographyH4({ children, as }: TypographyProps) {
+  const Tag = as ?? "h4";
   return (
-    <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
+    <Tag className="scroll-m-20 text-xl font-semibold tracking-tight">
       {children}
-    </h4>
+    </Tag>
   );
 }
-export function TypographyP({ children }: PropsWithChildren) {
-  return <p className="leading-7 [&:not(:first-child)]:mt-6">{children}</p>;
+export function TypographyP({ children, as }: TypographyProps) {
+  const Tag = as ?? "p";
+  return <Tag className="leading-7 [&:not(:first-child)]:mt-6">{children}</Tag>;
 }
-export function TypographyLead({ children }: PropsWithChildren) {
-  return <p className="text-xl text-muted-foreground">{children}</p>;
+export function TypographyLead({ children, as }: TypographyProps) {
+  const Tag = as ?? "p";
+  return <Tag className="text-xl text-muted-foreground">{children}</Tag>;
 }
-export function TypographyLarge({ children }: PropsWithChildren) {
-  return <div className="text-lg font-semibold">{children}</div>;
+export function TypographyLarge({ children, as }: TypographyProps) {
+  const Tag = as ?? "p";
+  return <Tag className="text-lg font-semibold">{children}</Tag>;
 }
-export function TypographySmall({ children }: PropsWithChildren) {
-  return <small className="text-sm font-medium leading-none">{children}</small>;
+export function TypographySmall({ children, as }: TypographyProps) {
+  const Tag = as ?? "p";
+  return <Tag className="text-sm font-medium leading-none">{children}</Tag>;
 }
-export function TypographyMuted({ children }: PropsWithChildren) {
-  return <p className="text-sm text-muted-foreground">{children}</p>;
+export function TypographyMuted({ children, as }: TypographyProps) {
+  const Tag = as ?? "p";
+  return <Tag className="text-sm text-muted-foreground">{children}</Tag>;
 }
