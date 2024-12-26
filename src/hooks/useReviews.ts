@@ -59,6 +59,10 @@ export const useReviews = () => {
           .select("*", { count: "exact" })
           .eq("srs_stage", 8)
           .lt("updated_at", enlightenedDate),
+        supabase
+          .from("entries")
+          .select("*", { count: "exact" })
+          .eq("srs_stage", -1),
       ]).then((results) =>
         results.map((res) => ({ data: res.data, count: res.count })),
       ),

@@ -17,6 +17,7 @@ export const Home = () => {
     .reduce((acc, stage) => acc + (stage.count ?? 0), 0);
   const masterCount = data?.[6].count;
   const enlightenedCount = data?.[7].count;
+  const burnedCount = data?.[8].count;
 
   return isPending ? (
     <ContentSkeleton />
@@ -58,7 +59,7 @@ export const Home = () => {
         <CardHeader>
           <CardTitle>Burned</CardTitle>
           <CardDescription className="font-semibold text-lg text-white">
-            {0}
+            {burnedCount}
           </CardDescription>
         </CardHeader>
       </Card>
