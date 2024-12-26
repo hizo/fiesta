@@ -32,11 +32,6 @@ export const Review = ({
     onFormSubmit(entry, correct);
   };
 
-  // const handleToggleCorrect = () => {
-  //   setCorrect(!correct);
-  //   onFormSubmit(entry, !correct, true);
-  // };
-
   return (
     <>
       <TypographyLarge>{entry.meaning}</TypographyLarge>
@@ -49,7 +44,6 @@ export const Review = ({
           entry={entry}
           correct={correct}
           onNext={() => onNext(entry, correct)}
-          // onToggleCorrect={handleToggleCorrect}
         />
       )}
     </>

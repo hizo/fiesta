@@ -9,13 +9,11 @@ export const Answer = ({
   entry,
   correct,
   onNext,
-  // onToggleCorrect,
 }: {
   answer: string;
   entry: Entry;
   correct: boolean;
   onNext: () => void;
-  // onToggleCorrect: () => void;
 }) => {
   return (
     <div>
@@ -46,10 +44,6 @@ export const Answer = ({
         <Button autoFocus onClick={() => onNext()}>
           Next <ChevronRight />
         </Button>
-
-        {/* <Button onClick={() => onToggleCorrect()}>
-          Ignore answer <X />
-        </Button> */}
       </div>
     </div>
   );
