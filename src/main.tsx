@@ -7,6 +7,7 @@ import { Home } from "./app/home/home.tsx";
 import { ProtectedPage } from "./components/ProtectedPage.tsx";
 import { Layout } from "./components/Layout.tsx";
 import { AddEntry } from "./app/AddEntry.tsx";
+import { Reviews } from "./app/Reviews.tsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -26,6 +27,7 @@ createRoot(document.getElementById("root")!).render(
           <Route element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="add" element={<AddEntry />} />
+            <Route path="reviews" element={<Reviews />} />
           </Route>
         </Route>
       </Routes>
