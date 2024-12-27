@@ -23,6 +23,7 @@ export const ReviewForm = ({ onFormSubmit }: ReviewFormProps) => {
         <Input
           id="word-es"
           autoFocus
+          autoCapitalize="none"
           {...register("entry", { required: true })}
         />
       </div>
