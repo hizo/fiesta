@@ -12,7 +12,7 @@ import { calculateNewStage } from "@/lib/utils";
 import { useSession } from "@/hooks/useSession";
 
 export const Reviews = () => {
-  const session = useSession();
+  const { session } = useSession();
   const queryClient = useQueryClient();
   const { data: { count = 0, data } = {}, isPending } = useReviews();
   const [reviews, setReviews] = useState<Entry[]>([]);

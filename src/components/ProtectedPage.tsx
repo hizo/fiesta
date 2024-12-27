@@ -1,13 +1,9 @@
-import { supabase } from "@/lib/supabase";
 import { Navigate, Outlet } from "react-router";
 import { Progress } from "./ui/progress";
-import { useQuery } from "@tanstack/react-query";
+import { useSession } from "@/hooks/useSession";
 
 export const ProtectedPage = () => {
-  const { data: { data: { session } = {} } = {}, isPending } = useQuery({
-    queryKey: ["auth"],
-    queryFn: () => supabase.auth.getSession(),
-  });
+  const { isPending, session } = useSession();
 
   return isPending ? (
     <div className="flex h-full items-center justify-center">

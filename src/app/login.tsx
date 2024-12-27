@@ -1,10 +1,14 @@
 import { GalleryVerticalEnd } from "lucide-react";
 
 import { LoginForm } from "@/components/login-form";
-import { Link } from "react-router";
+import { Link, Navigate } from "react-router";
+import { useSession } from "@/hooks/useSession";
 
 export default function LoginPage() {
-  return (
+  const { isPending, session } = useSession();
+  return !isPending && session ? (
+    <Navigate to="/" />
+  ) : (
     <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
       <div className="flex w-full max-w-sm flex-col gap-6">
         <Link

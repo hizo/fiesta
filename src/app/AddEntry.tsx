@@ -17,7 +17,7 @@ export const AddEntry = () => {
 
   const { register, handleSubmit, formState, reset } = useForm<FormData>();
 
-  const session = useSession();
+  const { session } = useSession();
 
   const { ref: entryInputRef, ...entryInput } = register("entry", {
     required: true,
