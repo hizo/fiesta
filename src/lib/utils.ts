@@ -10,15 +10,14 @@ export const calculateNewStage = (
   currentStage: number,
   incorrectAnswers: number,
 ) => {
+  const adjustedIncorrectCount = Math.ceil(incorrectAnswers / 2);
   const srsPenaltyFactor = currentStage >= SRS_STAGE.GURU_1 ? 2 : 1;
-  const newStage = Math.max(
+  const newStage =
     incorrectAnswers > 0
-      ? currentStage - incorrectAnswers * srsPenaltyFactor
+      ? Math.max(currentStage - adjustedIncorrectCount * srsPenaltyFactor, 1)
       : // burned or normal increment
         currentStage === SRS_STAGE.ENLIGHTENED
         ? -1
-        : currentStage + 1,
-    1,
-  );
+        : currentStage + 1;
   return newStage;
 };

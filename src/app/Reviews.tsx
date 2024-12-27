@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateEntry } from "@/api";
 import { calculateNewStage } from "@/lib/utils";
 import { useSession } from "@/hooks/useSession";
+import { startOfHour } from "date-fns";
 
 export const Reviews = () => {
   const { session } = useSession();
@@ -63,7 +64,7 @@ export const Reviews = () => {
     progressEntry({
       id: entry.id,
       srs_stage: calculateNewStage(entry.srs_stage, lookup.current[entry.id]),
-      updated_at: new Date().toISOString(),
+      updated_at: startOfHour(new Date()).toISOString(),
       user_id: session?.user.id ?? "",
     });
 

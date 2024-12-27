@@ -3,12 +3,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { TypographyH1, TypographyMuted } from "@/components/ui/typography";
-import { supabase } from "@/lib/supabase";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { useRef } from "react";
 import { EntryInsert } from "@/types";
 import { useSession } from "@/hooks/useSession";
+import { addEntry } from "@/api";
+import { startOfHour } from "date-fns";
 
 type FormData = Pick<EntryInsert, "entry" | "meaning" | "notes">;
 
@@ -23,12 +24,13 @@ export const AddEntry = () => {
     required: true,
   });
 
-  const mutation = useMutation<EntryInsert, unknown, FormData>({
-    mutationFn: (data) =>
-      supabase.from("entries").insert({
+  const mutation = useMutation<unknown, unknown, FormData>({
+    mutationFn: async (data) =>
+      addEntry({
         ...data,
+        updated_at: startOfHour(new Date()).toISOString(),
         user_id: session?.user.id || "",
-      }) as unknown as Promise<EntryInsert>,
+      }),
     onSuccess: () => {
       reset();
       refEntryInput.current?.focus();
