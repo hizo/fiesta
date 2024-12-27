@@ -36,7 +36,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const isMobile = useIsMobile();
   const { toggleSidebar } = useSidebar();
 
-  const session = useSession();
+  const { session } = useSession();
 
   const handleLogout = () => {
     supabase.auth.signOut();
