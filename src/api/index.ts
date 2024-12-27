@@ -1,7 +1,10 @@
 import { supabase } from "@/lib/supabase";
-import { EntryUpdate } from "@/types";
+import { EntryInsert, EntryUpdate } from "@/types";
 import { subHours, subDays, subWeeks, subMonths } from "date-fns";
 import { groupBy } from "es-toolkit";
+
+export const addEntry = async (data: EntryInsert) =>
+  supabase.from("entries").insert(data);
 
 export const getEntries = async () =>
   supabase
