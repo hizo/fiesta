@@ -1,3 +1,4 @@
+import { getEntries } from "@/api";
 import {
   Card,
   CardDescription,
@@ -6,19 +7,34 @@ import {
 } from "@/components/ui/card";
 import { ContentSkeleton } from "@/components/ui/content-skeleton";
 import { TypographyH1 } from "@/components/ui/typography";
-import { useReviews } from "@/hooks/useReviews";
+import { SRS_STAGE } from "@/types";
+import { useQuery } from "@tanstack/react-query";
 
 export const Home = () => {
-  const { data: { data } = {}, isPending } = useReviews();
-  const apprenticeCount = data
-    ?.slice(0, 4)
-    .reduce((acc, stage) => acc + (stage.count ?? 0), 0);
-  const guruCount = data
-    ?.slice(4, 6)
-    .reduce((acc, stage) => acc + (stage.count ?? 0), 0);
-  const masterCount = data?.[6].count;
-  const enlightenedCount = data?.[7].count;
-  const burnedCount = data?.[8].count;
+  const { data: entries = [], isPending: isPending } = useQuery({
+    queryKey: ["entries"],
+    queryFn: getEntries,
+  });
+
+  const {
+    [SRS_STAGE.APPRENTICE_1]: apprentice1 = [],
+    [SRS_STAGE.APPRENTICE_2]: apprentice2 = [],
+    [SRS_STAGE.APPRENTICE_3]: apprentice3 = [],
+    [SRS_STAGE.APPRENTICE_4]: apprentice4 = [],
+    [SRS_STAGE.GURU_1]: guru1 = [],
+    [SRS_STAGE.GURU_2]: guru2 = [],
+    [SRS_STAGE.MASTER]: master = [],
+    [SRS_STAGE.ENLIGHTENED]: enlightened = [],
+    [SRS_STAGE.BURNED]: burned = [],
+  } = entries;
+
+  const apprentice = [
+    apprentice1,
+    apprentice2,
+    apprentice3,
+    apprentice4,
+  ].flat();
+  const guru = [guru1, guru2].flat();
 
   return isPending ? (
     <ContentSkeleton />
@@ -30,7 +46,7 @@ export const Home = () => {
           <CardHeader>
             <CardTitle>Apprentice</CardTitle>
             <CardDescription className="font-semibold text-lg text-white">
-              {apprenticeCount}
+              {apprentice.length}
             </CardDescription>
           </CardHeader>
         </Card>
@@ -38,7 +54,7 @@ export const Home = () => {
           <CardHeader>
             <CardTitle>Guru</CardTitle>
             <CardDescription className="font-semibold text-lg text-white">
-              {guruCount}
+              {guru.length}
             </CardDescription>
           </CardHeader>
         </Card>
@@ -46,7 +62,7 @@ export const Home = () => {
           <CardHeader>
             <CardTitle>Master</CardTitle>
             <CardDescription className="font-semibold text-lg text-white">
-              {masterCount}
+              {master.length}
             </CardDescription>
           </CardHeader>
         </Card>
@@ -54,7 +70,7 @@ export const Home = () => {
           <CardHeader>
             <CardTitle>Enlightened</CardTitle>
             <CardDescription className="font-semibold text-lg text-white">
-              {enlightenedCount}
+              {enlightened.length}
             </CardDescription>
           </CardHeader>
         </Card>
@@ -62,7 +78,7 @@ export const Home = () => {
           <CardHeader>
             <CardTitle>Burned</CardTitle>
             <CardDescription className="font-semibold text-lg text-white">
-              {burnedCount}
+              {burned.length}
             </CardDescription>
           </CardHeader>
         </Card>

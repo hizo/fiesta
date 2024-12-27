@@ -2,8 +2,9 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import { BrowserRouter, Route, Routes } from "react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import LoginPage from "./app/login/login.tsx";
-import { Home } from "./app/home/home.tsx";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import LoginPage from "./app/login.tsx";
+import { Home } from "./app/home.tsx";
 import { ProtectedPage } from "./components/ProtectedPage.tsx";
 import { Layout } from "./components/Layout.tsx";
 import { AddEntry } from "./app/AddEntry.tsx";
@@ -32,5 +33,6 @@ createRoot(document.getElementById("root")!).render(
         </Route>
       </Routes>
     </BrowserRouter>
+    <ReactQueryDevtools initialIsOpen={false} />
   </QueryClientProvider>,
 );

@@ -6,14 +6,15 @@ import { useReviews } from "@/hooks/useReviews";
 import { Entry, EntryUpdate } from "@/types";
 import { useEffect, useRef, useState } from "react";
 import { shuffle } from "es-toolkit";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateEntry } from "@/api";
 import { calculateNewStage } from "@/lib/utils";
 import { useSession } from "@/hooks/useSession";
 
 export const Reviews = () => {
   const session = useSession();
-  const { data: { count, data } = {}, isPending } = useReviews();
+  const queryClient = useQueryClient();
+  const { data: { count = 0, data } = {}, isPending } = useReviews();
   const [reviews, setReviews] = useState<Entry[]>([]);
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [reset, setReset] = useState(false);
@@ -67,6 +68,10 @@ export const Reviews = () => {
     });
 
   const handleNext = (correct: boolean) => {
+    if (reviews.length === 1 && correct) {
+      queryClient.setQueryData(["reviews"], () => []);
+      setCorrectAnswers(0);
+    }
     setReviews((reviews) => (correct ? reviews.slice(1) : shuffle(reviews)));
     setReset(true);
   };
@@ -78,7 +83,7 @@ export const Reviews = () => {
     <>
       <TypographyH1>Reviews</TypographyH1>
       <div className="mt-6">
-        <Stats total={count ?? 0} correct={correctAnswers} />
+        <Stats total={count} correct={correctAnswers} />
       </div>
       {reviews.length > 0 ? (
         <div className="mt-4">

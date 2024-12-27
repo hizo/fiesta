@@ -1,6 +1,13 @@
 import { supabase } from "@/lib/supabase";
 import { EntryUpdate } from "@/types";
 import { subHours, subDays, subWeeks, subMonths } from "date-fns";
+import { groupBy } from "es-toolkit";
+
+export const getEntries = async () =>
+  supabase
+    .from("entries")
+    .select("id,srs_stage")
+    .then((results) => groupBy(results.data ?? [], (entry) => entry.srs_stage));
 
 export const getReviews = () => {
   const now = new Date();
