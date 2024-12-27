@@ -13,7 +13,7 @@ export const Review = ({
   entry: Entry;
   reset: boolean;
   onFormSubmit: (entry: Entry, correct: boolean, fix?: boolean) => void;
-  onNext: (entry: Entry, correct: boolean) => void;
+  onNext: (correct: boolean) => void;
 }) => {
   const [correct, setCorrect] = useState(false);
   const [answer, setAnswer] = useState("");
@@ -43,7 +43,7 @@ export const Review = ({
           answer={answer}
           entry={entry}
           correct={correct}
-          onNext={() => onNext(entry, correct)}
+          onNext={() => onNext(correct)}
         />
       )}
     </>

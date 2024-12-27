@@ -23,23 +23,20 @@ import {
   Target,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { useReviews } from "@/hooks/useReviews";
 import { Skeleton } from "./ui/skeleton";
 import { Badge } from "./ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { useSession } from "@/hooks/useSession";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const client = useQueryClient();
   const isMobile = useIsMobile();
   const { toggleSidebar } = useSidebar();
 
-  const { data: { data: { session } = {} } = {} } = useQuery<
-    Awaited<ReturnType<typeof supabase.auth.getSession>>
-  >({
-    queryKey: ["auth"],
-  });
+  const session = useSession();
 
   const handleLogout = () => {
     supabase.auth.signOut();

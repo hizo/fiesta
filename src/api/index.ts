@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase";
+import { EntryUpdate } from "@/types";
 import { subHours, subDays, subWeeks, subMonths } from "date-fns";
 
 export const getReviews = () => {
@@ -60,4 +61,8 @@ export const getReviews = () => {
   ]).then((results) =>
     results.map((res) => ({ data: res.data, count: res.count })),
   );
+};
+
+export const updateEntry = async (payload: EntryUpdate) => {
+  return supabase.from("entries").update(payload).eq("id", payload.id);
 };

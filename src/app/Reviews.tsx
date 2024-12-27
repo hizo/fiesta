@@ -3,16 +3,21 @@ import { Stats } from "@/components/Stats";
 import { ContentSkeleton } from "@/components/ui/content-skeleton";
 import { TypographyH1, TypographyP } from "@/components/ui/typography";
 import { useReviews } from "@/hooks/useReviews";
-import { Entry } from "@/types";
-import { useEffect, useState } from "react";
+import { Entry, EntryUpdate } from "@/types";
+import { useEffect, useRef, useState } from "react";
 import { shuffle } from "es-toolkit";
+import { useMutation } from "@tanstack/react-query";
+import { updateEntry } from "@/api";
+import { calculateNewStage } from "@/lib/utils";
+import { useSession } from "@/hooks/useSession";
 
 export const Reviews = () => {
+  const session = useSession();
   const { data: { count, data } = {}, isPending } = useReviews();
   const [reviews, setReviews] = useState<Entry[]>([]);
-  const [lookup, setLookup] = useState<Record<string, number>>({});
   const [correctAnswers, setCorrectAnswers] = useState(0);
   const [reset, setReset] = useState(false);
+  const lookup = useRef<Record<number, number>>({});
 
   useEffect(() => {
     setReviews(
@@ -31,32 +36,38 @@ export const Reviews = () => {
     }
   }, [reset]);
 
+  const { mutateAsync: progressEntry } = useMutation<
+    unknown,
+    unknown,
+    EntryUpdate
+  >({
+    mutationFn: updateEntry,
+  });
+
   const saveAnswer = (entry: Entry, correct: boolean, fix: boolean = false) => {
-    const previousAnswerCount = lookup[entry.id] || 0;
+    const previousAnswerCount = lookup.current[entry.id] || 0;
     const answerPenalty = correct ? (fix ? -1 : 0) : 1;
     const newAnswerCount = previousAnswerCount + answerPenalty;
     const statsDelta = correct ? 1 : fix ? -1 : 0;
 
     setCorrectAnswers((correctAnswers) => correctAnswers + statsDelta);
-    setLookup((lookup) => ({
-      ...lookup,
+    lookup.current = {
+      ...lookup.current,
       [entry.id]: newAnswerCount,
-    }));
+    };
+    if (correct) handleCorrectAnswer(entry);
   };
 
-  const shuffleReviews = () => setReviews(shuffle);
+  const handleCorrectAnswer = (entry: Entry) =>
+    progressEntry({
+      id: entry.id,
+      srs_stage: calculateNewStage(entry.srs_stage, lookup.current[entry.id]),
+      updated_at: new Date().toISOString(),
+      user_id: session?.user.id ?? "",
+    });
 
-  const handleCorrectAnswer = (entry: Entry) => {
-    // api.progress(entry, lookup[entry.id])
-    setReviews((reviews) => reviews.slice(1));
-  };
-
-  const handleNext = (entry: Entry, correct: boolean) => {
-    if (correct) {
-      handleCorrectAnswer(entry);
-    } else {
-      shuffleReviews();
-    }
+  const handleNext = (correct: boolean) => {
+    setReviews((reviews) => (correct ? reviews.slice(1) : shuffle(reviews)));
     setReset(true);
   };
 

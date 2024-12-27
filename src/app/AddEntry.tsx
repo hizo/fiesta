@@ -5,20 +5,19 @@ import { Textarea } from "@/components/ui/textarea";
 import { TypographyH1, TypographyMuted } from "@/components/ui/typography";
 import { supabase } from "@/lib/supabase";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useRef } from "react";
 import { EntryInsert } from "@/types";
+import { useSession } from "@/hooks/useSession";
 
 type FormData = Pick<EntryInsert, "entry" | "meaning" | "notes">;
 
 export const AddEntry = () => {
   const refEntryInput = useRef<HTMLInputElement | null>(null);
+
   const { register, handleSubmit, formState, reset } = useForm<FormData>();
-  const { data: { data: { session } = {} } = {} } = useQuery<
-    Awaited<ReturnType<typeof supabase.auth.getSession>>
-  >({
-    queryKey: ["auth"],
-  });
+
+  const session = useSession();
 
   const { ref: entryInputRef, ...entryInput } = register("entry", {
     required: true,
