@@ -51,6 +51,7 @@ export const AddEntry = () => {
           <Label htmlFor="word-es">Word in Spanish:</Label>
           <Input
             id="word-es"
+            autoCapitalize="none"
             {...entryInput}
             ref={(node) => {
               entryInputRef(node);
@@ -60,7 +61,11 @@ export const AddEntry = () => {
         </div>
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="word-en">Word meaning:</Label>
-          <Input id="word-en" {...register("meaning", { required: true })} />
+          <Input
+            id="word-en"
+            autoCapitalize="none"
+            {...register("meaning", { required: true })}
+          />
         </div>
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="word-notes">Notes (optional):</Label>
@@ -68,7 +73,12 @@ export const AddEntry = () => {
             You can add notes like plural of the word, or anything else you
             would like to remember
           </TypographyMuted>
-          <Textarea rows={4} id="word-notes" {...register("notes")} />
+          <Textarea
+            rows={4}
+            id="word-notes"
+            autoCapitalize="none"
+            {...register("notes")}
+          />
         </div>
         <Button
           type="submit"
