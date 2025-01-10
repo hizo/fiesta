@@ -17,13 +17,18 @@ export const ReviewForm = ({ onFormSubmit }: ReviewFormProps) => {
   const onSubmit = handleSubmit(onFormSubmit);
 
   return (
-    <form onSubmit={onSubmit} className="mt-6 flex flex-col gap-4">
+    <form
+      onSubmit={onSubmit}
+      className="mt-6 flex flex-col gap-4"
+      autoComplete="off"
+    >
       <div className="flex flex-col gap-1.5">
         <Label htmlFor="word-es">Word in Spanish:</Label>
         <Input
           id="word-es"
           autoFocus
           autoCapitalize="none"
+          autoComplete="off"
           {...register("entry", { required: true })}
         />
       </div>
