@@ -28,33 +28,57 @@ export const Home = () => {
     [SRS_STAGE.BURNED]: burned = [],
   } = entries;
 
-  const apprentice = [
-    apprentice1,
-    apprentice2,
-    apprentice3,
-    apprentice4,
-  ].flat();
-  const guru = [guru1, guru2].flat();
-
   return isPending ? (
     <ContentSkeleton />
   ) : (
     <>
       <TypographyH1>Overview</TypographyH1>
-      <div className="mt-6 flex gap-2 flex-wrap">
+      <div className="mt-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 lg:max-w-4xl">
         <Card className="min-w-[140px] bg-rose-300">
           <CardHeader>
-            <CardTitle>Apprentice</CardTitle>
+            <CardTitle>Apprentice 1</CardTitle>
             <CardDescription className="font-semibold text-lg text-white">
-              {apprentice.length}
+              {apprentice1.length}
+            </CardDescription>
+          </CardHeader>
+        </Card>
+        <Card className="min-w-[140px] bg-rose-300">
+          <CardHeader>
+            <CardTitle>Apprentice 2</CardTitle>
+            <CardDescription className="font-semibold text-lg text-white">
+              {apprentice2.length}
+            </CardDescription>
+          </CardHeader>
+        </Card>
+        <Card className="min-w-[140px] bg-rose-300">
+          <CardHeader>
+            <CardTitle>Apprentice 3</CardTitle>
+            <CardDescription className="font-semibold text-lg text-white">
+              {apprentice3.length}
+            </CardDescription>
+          </CardHeader>
+        </Card>
+        <Card className="min-w-[140px] bg-rose-300">
+          <CardHeader>
+            <CardTitle>Apprentice 4</CardTitle>
+            <CardDescription className="font-semibold text-lg text-white">
+              {apprentice4.length}
             </CardDescription>
           </CardHeader>
         </Card>
         <Card className="min-w-[140px] bg-fuchsia-300">
           <CardHeader>
-            <CardTitle>Guru</CardTitle>
+            <CardTitle>Guru 1</CardTitle>
             <CardDescription className="font-semibold text-lg text-white">
-              {guru.length}
+              {guru1.length}
+            </CardDescription>
+          </CardHeader>
+        </Card>
+        <Card className="min-w-[140px] bg-fuchsia-300">
+          <CardHeader>
+            <CardTitle>Guru 2</CardTitle>
+            <CardDescription className="font-semibold text-lg text-white">
+              {guru2.length}
             </CardDescription>
           </CardHeader>
         </Card>
