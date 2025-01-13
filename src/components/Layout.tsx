@@ -36,9 +36,7 @@ export const Layout = () => {
           </Breadcrumb>
         </header>
         <div className="flex-1 p-4">
-          {/* <div className="md:max-w-screen-sm"> */}
           <Outlet />
-          {/* </div> */}
         </div>
       </SidebarInset>
     </SidebarProvider>
