@@ -39,7 +39,11 @@ export const AddEntry = () => {
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     if (!session?.user.id) return;
-    mutation.mutateAsync(data);
+    mutation.mutateAsync({
+      ...data,
+      entry: data.entry.trim(),
+      meaning: data.meaning.trim()
+    });
   };
 
   return (
